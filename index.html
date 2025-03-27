@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat { display: none; }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container" id="login">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Enter username">
+      <input type="text" id="password" placeholder="Enter password">
+      <button onclick="login()">Login</button>
+  </div>
+
+  <div class="container" id="chat">
+      <h2>Chat</h2>
+      <p>Logged in as: <span id="currentUser"></span></p>
+      <h3>Online Users</h3>
+      <ul id="users"></ul>
+      <h3>Messages</h3>
+      <div id="messages"></div>
+      <select id="recipient"></select>
+      <input type="text" id="messageInput" placeholder="Type a message">
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="logout()">Logout</button>
+  </div>
+</body>
+<script src="./sockets.js"></script>
+</html>
