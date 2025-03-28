@@ -34,7 +34,7 @@ async function login() {
     if (!isLoggedIn) return;
     document.getElementById("login").style.display = "none";
     document.getElementById("chat").style.display = "block";
-    document.getElementById("currentUser").innerText = username;
+    document.getElementById("currentUser").innerText = loginUser;
 }
 
 async function hashPassword(password) {
