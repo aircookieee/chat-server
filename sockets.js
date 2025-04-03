@@ -5,6 +5,14 @@ class wsLoginMessage {
         this.password = password;   // please hash the password thanks
       }
 }
+class wsTextMessage {
+  constructor(type, source, target, messageData) {
+      this.type = type;
+      this.source = source;
+      this.target = target;
+      this.messageData = messageData;
+  }
+}
 class wsMessage {
     constructor(type, data) {
         this.type = type;
@@ -12,7 +20,7 @@ class wsMessage {
     }
 }
 
-const wsUri = "ws://localhost:8010/";
+const wsUri = "ws://195.32.104.174:8010/";
 const output = document.querySelector("#output");
 const websocket = new WebSocket(wsUri);
 

@@ -10,6 +10,18 @@ class wsLoginMessage {
       this.password = password;   // please hash the password thanks
     }
 }
+class wsTextMessage {
+  type: string;
+  source: string; 
+  target: string;
+  messageData: string;
+  constructor(type: string, source: string, target: string, messageData: string) {
+      this.type = type;
+      this.source = source;
+      this.target = target;
+      this.messageData = messageData;
+  }
+}
 class wsMessage {
   type: string;
   data: string;
@@ -24,14 +36,15 @@ function verifyPassword(inputHash: string, storedHash: string): boolean {
   return inputHash === storedHash;
 }
 
-let onlineUsers = []
+let onlineUsers = new Array();
+let onlineSockets = new Array();
 
 Deno.serve({
     port: 8010,
     handler: (request) => {
       if (request.headers.get("upgrade") === "websocket") {
         const { socket, response } = Deno.upgradeWebSocket(request);
-  
+        
         socket.onopen = () => {
           console.log("CONNECTED");
           console.log(socket.readyState);
@@ -46,7 +59,15 @@ Deno.serve({
               const passwordIsValid = verifyPassword(loginMessage.password, auth.keys.default)
               console.log(JSON.stringify(new wsMessage("loginResponse", String(passwordIsValid))));
               socket.send(JSON.stringify(new wsMessage("loginResponse", String(passwordIsValid))))
-
+              if (passwordIsValid) {
+                onlineUsers.push(loginMessage.username);
+                onlineSockets.push(socket);
+              }
+          }
+          else if (message.type == "textMessage") {
+            const recvMessage: wsTextMessage = message;
+            console.log("Received from " + recvMessage.source + " to " + recvMessage.target + " data: " + recvMessage.messageData);
+            
           }
         };
         socket.onclose = () => console.log("Client Disconnected");
